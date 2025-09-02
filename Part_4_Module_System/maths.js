@@ -9,7 +9,6 @@ function sub(a, b) {
 }
 
 // Exporting both the functions
-module.exports = {
-    add,
-    sub,
+export {
+    add, sub
 }
