@@ -1,6 +1,6 @@
+// Importing the http module from external 
 
 /*
-// Importing the http module from external 
 const http = require('https');
 
 // creating a http request by http.request() and storing it in a variable
@@ -23,6 +23,8 @@ req.end();
 // again we are going to execute the same program but this time not importing the entire http module but a part of it 
 
 
+
+
 /*
 // here we are destructuring the http module and only importing the get function from there
 const { get } = require('https');
@@ -39,4 +41,4 @@ get('https://www.google.com', (res) => {
 
 
 
-
+// 
