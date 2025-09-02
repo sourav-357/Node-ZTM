@@ -1,6 +1,5 @@
 // Importing the http module from external 
 
-
 const http = require('https');
 
 // creating a http request by http.request() and storing it in a variable
@@ -18,13 +17,11 @@ let req = http.request('https://www.google.com', (res) => { // http.request take
 
 
 
+//------------------------------------------------------------------------------------------------------------------//
+
 
 
 // again we are going to execute the same program but this time not importing the entire http module but a part of it 
-
-
-
-
 
 // here we are destructuring the http module and only importing the get function from there
 const { get } = require('https');
@@ -40,5 +37,24 @@ get('https://www.google.com', (res) => {
 
 
 
+// -----------------------------------------------------------------------------------------------------------------//
 
-// 
+
+
+// Importing and using the custom made module 
+const expression = require('./maths');
+
+// using the first function
+console.log('Addition of two numbers is: ')
+console.log(expression.add(2, 3));
+
+// using the second custom made module
+console.log('Difference of two numbers is: ')
+console.log(expression.sub(5, 3));
+
+
+
+//------------------------------------------------------------------------------------------------------------------//
+
+
+
