@@ -1,8 +1,10 @@
+
+/*
 // Importing the http module from external 
-const http = require('http');
+const http = require('https');
 
 // creating a http request by http.request() and storing it in a variable
-let req = http.request('http://www.google.com', (res) => { // http.request takes the requested url and a respond callback function
+let req = http.request('https://www.google.com', (res) => { // http.request takes the requested url and a respond callback function
     res.on('data', (chunk) => { // res.on() to start responding and the first parameter is data -->> if we recieve data then we need to do this thing (that is inside the callback function)
         console.log(`Data chunk: ${chunk}`); // here the callback function is simply printing out the data that we recieved
     });
@@ -13,3 +15,28 @@ let req = http.request('http://www.google.com', (res) => { // http.request takes
 
 // we need to execute the http request by ending that request
 req.end();
+*/
+
+
+
+
+// again we are going to execute the same program but this time not importing the entire http module but a part of it 
+
+
+/*
+// here we are destructuring the http module and only importing the get function from there
+const { get } = require('https');
+
+get('https://www.google.com', (res) => { 
+    res.on('data', (chunk) => { 
+        console.log(`Data chunk: ${chunk}`);
+    });
+    res.on('end', () => { 
+        console.log('No more data'); 
+    });
+});
+*/
+
+
+
+
