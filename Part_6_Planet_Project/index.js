@@ -10,6 +10,11 @@ const results = [];
 
 // creating a readstream for the data of the kepler_data.csv file
 fs.createReadStream('./kepler_data.csv')
+    // parsing the data recieved from kepler file then proceeding it further to data event
+    .pipe(parse({
+        comment: '#',
+        columns: true,
+    }))
     // creating the first event if data is recieved
     .on('data', (data) => {
         results.push(data);
