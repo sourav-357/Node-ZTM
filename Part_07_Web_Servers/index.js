@@ -3,15 +3,41 @@
 
 // importing the http module
 const http = require('http');
+const { stringify } = require('querystring');
 
 // setting up the port to 3000
 const PORT = 3000;
 
+// creating an array of friends
+const friends = [
+    {
+        roll: 1,
+        name: 'Aditya Prasad',
+    },
+    {
+        roll: 2,
+        name: 'Shivam Mandal',
+    },
+    {
+        roll: 3,
+        name: 'Krishna Anantwar',
+    },
+    {
+        roll: 4,
+        name: 'Adarsh Gupta'
+    }
+];
+
 // Creating our new server with the name 'server'
 const server = http.createServer((req, res) => {
 
+    // We now need to parse the url into many parts so that we can act accordingly
+    const items = req.url.split('/');
+    // This will parse the url as '/friends/2'  -->>   ' ' + 'friends' + '2'
+    const rollNumber = Number(items[2]);
+
     // if the requested url matches '/friends'
-    if (req.url === '/friends') {
+    if (items[1] === 'friends') {
 
         // we need to write down the status code 
         res.statusCode = 200;
@@ -19,16 +45,14 @@ const server = http.createServer((req, res) => {
         res.setHeader('Content-Type', 'application/json');
 
         // Compulsory to write the res.end() as it will execute the response to the request 
-        res.end(JSON.stringify({ // JSON.stringify willl convert the method to string
-            roll: 2409146,
-            name: 'Sourav Kumar',
-            nickname: 'CutuRiyaa',
-            semester: '2nd Semester student',
-            branch: 'Computer science and engineering',
-        }));
+        if (items.length === 3) {
+            res.end(JSON.stringify(friends[rollNumber]));
+        } else {
+            res.end(JSON.stringify(friends));
+        }
 
     // if the requested url is '/messages' then it will respond like this
-    } else if (req.url === '/messages') {
+    } else if (items[1] === 'messages') {
 
         // setting up the statusCode
         res.statusCode = 200;
