@@ -1,4 +1,7 @@
 
+// Importing the data of friends from different module
+const friends = require('../models/friends.model');
+
 // Creating a function for the new friends by post method
 function postFriend(req, res) {
 

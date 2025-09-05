@@ -165,34 +165,6 @@ const app = express();
 // Setting up the port number -->> 3000
 const PORT = 3000;
 
-// Creating a friends array tat will store all the information about the friends 
-const friends = [
-    {
-        roll: '1',
-        name: 'Sourav Kumar',
-        semester: '2nd Semester',
-        branch: 'Computer Science and Engineering',
-    },
-    {
-        roll: '2',
-        name: 'Shivam Kumar',
-        semester: '2nd Semester',
-        branch: 'Mechanical Engineering',
-    },
-    {
-        roll: '3',
-        name: 'Asish Kumar',
-        semester: '2nd Semester',
-        branch: 'Electronics Engineering',
-    },
-    {
-        roll: '4',
-        name: 'Akash Kumar',
-        semester: '2nd Semester',
-        branch: 'Computer Science and Engineering',
-    }
-];
-
 // We are going to use another function of Express that will help us to play with data of reqest and respond
 // We can (after editing the data's of these parameters) use next() to proceed further 
 // This function app.use() have a function that takes three parameters (req, res, next) so that we can move to next 
