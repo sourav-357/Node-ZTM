@@ -20,7 +20,7 @@ const friends = [
     },
     {
         roll: '2',
-        name: 'Yogesh Kumar',
+        name: 'Shivam Kumar',
         semester: '2nd Semester',
         branch: 'Mechanical Engineering',
     },
@@ -36,7 +36,25 @@ const friends = [
         semester: '2nd Semester',
         branch: 'Computer Science and Engineering',
     }
-]
+];
+
+// We are going to use another function of Express that will help us to play with data of reqest and respond
+// We can (after editing the data's of these parameters) use next() to proceed further 
+// This function app.use() have a function that takes three parameters (req, res, next) so that we can move to next 
+app.use((req, res, next) => {
+
+    // Declaring a variable to store the current time 
+    const start = Date.now();
+
+    // Moving on to the next function -->> app.get() functions and then it will return here and execute the rest part
+    next();
+
+    // Calculating the time taken for the get() functions 
+    const timeTaken = Date.now() - start;
+
+    // Playing with the req and res data whatever we like 
+    console.log(`The requested method is ${req.method} type and the url is ${req.url} and time taken is ${timeTaken}ms`);
+}) 
 
 // Routing the Express Server to any particular url
 app.get('/friends', (req, res) => {
