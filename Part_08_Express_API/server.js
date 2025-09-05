@@ -10,17 +10,40 @@ const app = express();
 // Setting up the port number -->> 3000
 const PORT = 3000;
 
+// Creating a friends array tat will store all the information about the friends 
+const friends = [
+    {
+        roll: '1',
+        name: 'Sourav Kumar',
+        semester: '2nd Semester',
+        branch: 'Computer Science and Engineering',
+    },
+    {
+        roll: '2',
+        name: 'Yogesh Kumar',
+        semester: '2nd Semester',
+        branch: 'Mechanical Engineering',
+    },
+    {
+        roll: '3',
+        name: 'Asish Kumar',
+        semester: '2nd Semester',
+        branch: 'Electronics Engineering',
+    },
+    {
+        roll: '4',
+        name: 'Akash Kumar',
+        semester: '2nd Semester',
+        branch: 'Computer Science and Engineering',
+    }
+]
+
 // Routing the Express Server to any particular url
 app.get('/', (req, res) => {
 
     // Directly passing the work that it will do without even telling the res.setHeader('text/html') function
     // Without even passing the stringify object or res.end() function
-    res.send({
-        roll: '2409146',
-        name: 'Sourav Kumar',
-        semester: '2nd Semester',
-        branch: 'Computer Science and Engineering',
-    });
+    res.send(friends);
 });
 
 // Routing another url in express
@@ -39,3 +62,4 @@ app.post('/messages', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Listining to server at port ${PORT}...`)
 });
+
