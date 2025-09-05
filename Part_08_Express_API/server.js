@@ -39,11 +39,38 @@ const friends = [
 ]
 
 // Routing the Express Server to any particular url
-app.get('/', (req, res) => {
+app.get('/friends', (req, res) => {
 
     // Directly passing the work that it will do without even telling the res.setHeader('text/html') function
     // Without even passing the stringify object or res.end() function
     res.send(friends);
+
+    // We could also use JSON instead of the send part so that our message is for sure treated as the java script object
+    res.json(friends);
+
+    // we could also pass on the status code by 
+    res.status(200).json(friends);
+});
+
+// Now parsing the url for a particular friend roll number 
+app.get('/friends/:friendIds', (req, res) => {
+
+    // This will parse the value after '/friends/:' and will store it in friendsId and we are converting it into number
+    const friendId = Number(req.params.friendIds);
+
+    // Checking and storing if any friend exist with the entered friendId or not  
+    const friend = friends[friendId];
+    
+    // Responding as per the user data 
+    if (friend) {
+        res.status(200).json(friend);
+
+    // if the friend do not exist with the friendId 
+    } else {
+        res.status(404).json({ // here we could return any value so here we just created a object and responded
+            error: 'The Requested friend do not exist .... '
+        })
+    }
 });
 
 // Routing another url in express
