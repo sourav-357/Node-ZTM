@@ -155,6 +155,10 @@ app.listen(PORT, () => {
 // importing the express module that we installed
 const express = require('express');
 
+// Importing the functions from other module for messages and friends
+const friendsController = require('./controllers/friends.controller');
+const messageController = require('./controllers/messages.controller');
+
 // setting up the new server
 const app = express();
 
@@ -274,12 +278,10 @@ app.get('/friends/:friendIds', (req, res) => {
 });
 
 // Routing another url in express
-app.get('/messages');
+app.get('/messages', messageController.getMessages());
 
 // Routing another url in express 
-app.post('/messages', (req, res) => {
-    console.log('Updateing messages...');
-});
+app.post('/messages', messageController.postMessage());
 
 // Starting the port at 3000 by ".listen(port, () => {})" function 
 app.listen(PORT, () => {
