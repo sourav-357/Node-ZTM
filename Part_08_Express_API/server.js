@@ -1,4 +1,6 @@
 
+// If our server is called server.js then our server is started by only typing the npm start without changing anything at package.json file
+
 // importing the express module that we installed
 const express = require('express');
 
