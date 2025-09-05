@@ -61,7 +61,31 @@ app.use((req, res, next) => {
 // this express.json() function helps to understand the JSON contents when user hit a post request of JSON type
 app.use(express.json());
 
-// 
+// app.post() request to pass on the data and put it under the friends section
+app.post('/friends', (req, res) => {
+
+    // if the post request do not have the data we want
+    if (!req.body.name && req.body.semester && req.body.branch) {
+        return res.status(400).json({
+            error: `The required data cannot be empty`
+        });
+    }
+
+    // Creating a new friend as per the user data
+    const newFriend = {
+
+        roll: friends.length + 1,
+        name: req.body.name, // req.body.name -->> requested_url.content(body).name
+        semester: req.body.semester,
+        branch: req.body.branch,
+    };
+
+    // adding the new friend to friend array
+    friends.push(newFriend);
+
+    // printing the entire friends array
+    res.json(friends);
+});
 
 // Routing the Express Server to any particular url
 app.get('/friends', (req, res) => {
