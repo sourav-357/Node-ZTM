@@ -75,7 +75,7 @@ app.post('/friends', (req, res) => {
     const newFriend = {
 
         roll: friends.length + 1,
-        name: req.body.name, // req.body.name -->> requested_url.content(body).name
+        name: req.body.name, // req.body.name -->> requested_url.content(body).name(parameter that we want from the json)
         semester: req.body.semester,
         branch: req.body.branch,
     };
