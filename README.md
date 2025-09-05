@@ -2,17 +2,6 @@
 
 > 📚 A clean, beginner‑friendly **Node.js learning repo** following the **Zero To Mastery** (ZTM) path — with examples, notes, and mini‑projects.
 
-<p align="center">
-  <a href="#-features">✨ Features</a> ·
-  <a href="#-tech-stack">🧰 Tech Stack</a> ·
-  <a href="#-quick-start">⚡ Quick Start</a> ·
-  <a href="#-project-structure">🗂 Project Structure</a> ·
-  <a href="#-scripts">📜 NPM Scripts</a> ·          
-  <a href="#-learning-checklist">✅ Learning Checklist</a> ·
-  <a href="#-roadmap">🧭 Roadmap</a> ·
-  <a href="#-contributing">🤝 Contributing</a>
-</p>
-
 ---
 
 ## ⭐ Overview
