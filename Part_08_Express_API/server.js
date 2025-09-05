@@ -69,7 +69,7 @@ app.post('/friends', (req, res) => {
         return res.status(400).json({
             error: `The required data cannot be empty`
         });
-    }
+    };
 
     // Creating a new friend as per the user data
     const newFriend = {
