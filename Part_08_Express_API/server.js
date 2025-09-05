@@ -47,6 +47,8 @@ app.use((req, res, next) => {
     const start = Date.now();
 
     // Moving on to the next function -->> app.get() functions and then it will return here and execute the rest part
+    // next() will first see if there is any other use() functions -->> if yes then it will move on to that one first
+    // If there is none then it will move further to get()
     next();
 
     // Calculating the time taken for the get() functions 
@@ -54,7 +56,12 @@ app.use((req, res, next) => {
 
     // Playing with the req and res data whatever we like 
     console.log(`The requested method is ${req.method} type and the url is ${req.url} and time taken is ${timeTaken}ms`);
-}) 
+});
+
+// this express.json() function helps to understand the JSON contents when user hit a post request of JSON type
+app.use(express.json());
+
+// 
 
 // Routing the Express Server to any particular url
 app.get('/friends', (req, res) => {
