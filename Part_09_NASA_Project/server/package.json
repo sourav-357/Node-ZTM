@@ -1,11 +1,12 @@
 {
-  "name": "server",
+  "name": "nasa-project-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "NASA Mission Control API",
+  "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "watch": "src/server.js", 
+    "start": "node src/server.js"
   },
   "keywords": [],
   "author": "",
