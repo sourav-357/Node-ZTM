@@ -8,3 +8,8 @@ const planets = require('../../models/planets.model.js');
 function getAllPlanets(req, res) {
     return res.status(200).json(planets);
 }
+
+// Exporting the functions from this module
+module.exports = {
+    getAllPlanets,
+}
