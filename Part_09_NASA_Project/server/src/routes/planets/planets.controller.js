@@ -1,8 +1,8 @@
 
 // All the functions of planets that will be required by the planet.router when called by the app.js 
 
-// Creating data for the planets
-const planets = [];
+// Importing the planets data from planets.model module
+const planets = require('../../models/planets.model.js');
 
 // Creating a function of getting all planets
 function getAllPlanets(req, res) {
