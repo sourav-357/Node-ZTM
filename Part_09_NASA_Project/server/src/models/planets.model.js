@@ -6,3 +6,4 @@ const planets = [];
 
 // exporting the module
 module.exports = planets;
+
