@@ -15,13 +15,13 @@ const server = http.createServer(app);
 
 async function startServer(){
 
-await loadPlanetsData();
+    await loadPlanetsData();
 
-// Start the server and listen on the specified port
-// When the server starts, print a message in the console
-server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}...`);
-});
+    // Start the server and listen on the specified port
+    // When the server starts, print a message in the console
+    server.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}...`);
+    });
 }
 
 startServer();
