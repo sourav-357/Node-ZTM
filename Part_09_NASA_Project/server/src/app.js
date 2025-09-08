@@ -5,6 +5,7 @@ const path = require('path');
 const morgan = require('morgan');
 
 const planetsRouter = require('./routes/planets/planets.router');
+const launchesRouter = require('./routes/launches/launches.router');
 
 // Create an Express application
 const app = express();
@@ -15,7 +16,7 @@ app.use(cors({
 }));
 
 // we will use the morgan that we installed for console.log the data of the requested url by the user on the browser
-app.use(morgan('combined')); // it will log all the request made by the user in teh terminal
+// app.use(morgan('combined')); // it will log all the request made by the user in teh terminal
 
 // So that the data could be treated as a json file
 app.use(express.json());
@@ -31,6 +32,9 @@ app.get('/index.html', (req, res) => {
 
 // Starting to use our first server
 app.use(planetsRouter);
+
+// starting our second server
+app.use(launchesRouter);
 
 // Export the app so it can be used in other files (like server.js)
 module.exports = app;
