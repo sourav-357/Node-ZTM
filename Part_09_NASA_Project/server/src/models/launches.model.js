@@ -14,7 +14,8 @@ const launch = {
     success: true,
 };
 
-// we will now map the flightNumber and that particular launch object together so that by calling launch.get(filghtNumber) -->> we can get all data of the satelite
+// we will now map the flightNumber and that particular launch object together so that by calling launch.get(filghtNumber) -->> 
+// we can get all data of the satelite
 launches.set(launch.filghtNumber, launch);
 
 // exporting the module data now so that it could be used elsewhere
