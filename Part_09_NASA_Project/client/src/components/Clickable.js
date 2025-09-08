@@ -21,3 +21,4 @@ const Clickable = props => {
 };
 
 export default withSounds()(Clickable);
+

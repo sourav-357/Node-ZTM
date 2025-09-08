@@ -27,3 +27,4 @@ const Centered = props => {
 };
 
 export default withStyles(styles)(Centered);
+

@@ -12,3 +12,4 @@ planetsRouter.get('/planets', planetsController.getAllPlanets);
 
 // Export the router so it can be used in app.js
 module.exports = planetsRouter;
+

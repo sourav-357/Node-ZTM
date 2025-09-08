@@ -103,3 +103,4 @@ const AppLayout = props => {
 };
 
 export default withSounds()(withStyles(styles)(AppLayout));
+

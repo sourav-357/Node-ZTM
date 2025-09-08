@@ -69,3 +69,4 @@ const Upcoming = props => {
 }
 
 export default withStyles(styles)(Upcoming);
+
