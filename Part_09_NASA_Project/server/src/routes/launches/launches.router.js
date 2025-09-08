@@ -2,6 +2,11 @@
 // Import Express to create routes
 const express = require('express');
 
+// Importing the getAllLaunches Function from different module
+const {
+    getAllLaunches,
+} = require('./launches.controller');
+
 // Create a new router for launchesRouter
 const launchesRouter = express.Router();
 
