@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const morgan = require('morgan');
 
 const planetsRouter = require('./routes/planets/planets.router');
 
@@ -12,6 +13,9 @@ const app = express();
 app.use(cors({
     origin: 'http://localhost:3000',
 }));
+
+// we will use the morgan that we installed for console.log the data of the requested url by the user on the browser
+app.use(morgan('combined')); // it will log all the request made by the user in teh terminal
 
 // So that the data could be treated as a json file
 app.use(express.json());
