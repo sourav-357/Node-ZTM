@@ -11,7 +11,11 @@ const app = express();
 app.use(cors({
     origin: 'http://localhost:3000',
 }));
+
+// So that the data could be treated as a json file
 app.use(express.json());
+
+// Starting to use our first server
 app.use(planetsRouter);
 
 // Export the app so it can be used in other files (like server.js)
