@@ -7,7 +7,7 @@ let latestFlighNumber = 100;
 
 // creating a object of lauch 
 const launch = {
-    filghtNumber: 100,
+    flightNumber: 100,
     mission: 'kepler exploration x',
     rocket: 'Explorer IS1',
     launchDate: new Date('December 27, 2030'),
@@ -17,9 +17,9 @@ const launch = {
     success: true,
 };
 
-// we will now map the flightNumber and that particular launch object together so that by calling launch.get(filghtNumber) -->> 
+// we will now map the flightNumber and that particular launch object together so that by calling launch.get(flightNumber) -->> 
 // we can get all data of the satelite
-launches.set(launch.filghtNumber, launch);
+launches.set(launch.flightNumber, launch);
 
 //if there exist a launch with that launch Id 
 function existsLaunchWithId(launchId) {
@@ -37,7 +37,7 @@ function addNewLaunch(launch) {
     launches.set(
         latestFlighNumber, 
         Object.assign(launch, {
-            filghtNumber: latestFlighNumber,
+            flightNumber: latestFlighNumber,
             customer: ['Zero to Mastery', 'NASA'],
             upcoming: true,
             success: true,
@@ -47,7 +47,10 @@ function addNewLaunch(launch) {
 
 // Function to abort any particular function
 function abortLaunchById(launchId) {
-    
+    const aborted = launches.get(launchId);
+    aborted.upcoming = false;
+    aborted.success = false;
+    return aborted;
 }
 
 // exporting the module data now so that it could be used elsewhere

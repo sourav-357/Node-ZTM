@@ -9,9 +9,6 @@ const {
     httpAbortLaunch,
 } = require('./launches.controller');
 
-// Importing abort launch 
-const { httpAbortLaunch } = require('../../../../client/src/hooks/requests');
-
 // Create a new router for launchesRouter
 const launchesRouter = express.Router();
 
