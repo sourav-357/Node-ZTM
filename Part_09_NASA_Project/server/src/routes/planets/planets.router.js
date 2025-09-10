@@ -8,7 +8,7 @@ const { httpGetAllPlanets } = require('./planets.controller');
 const planetsRouter = express.Router();
 
 // When someone goes to /planets (GET request), run getAllPlanets function
-planetsRouter.get('/planets', httpGetAllPlanets);
+planetsRouter.get('/', httpGetAllPlanets);
 
 // Export the router so it can be used in app.js
 module.exports = planetsRouter;

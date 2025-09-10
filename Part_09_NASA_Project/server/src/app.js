@@ -31,10 +31,10 @@ app.get('/index.html', (req, res) => {
 });
 
 // Starting to use our first server
-app.use(planetsRouter);
+app.use('/planets' ,planetsRouter);
 
 // starting our second server
-app.use(launchesRouter);
+app.use('/launches', launchesRouter);
 
 // Export the app so it can be used in other files (like server.js)
 module.exports = app;
