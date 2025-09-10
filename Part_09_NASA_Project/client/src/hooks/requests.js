@@ -24,7 +24,7 @@ async function httpSubmitLaunch(launch) {
       },
       body: JSON.stringify(launch),  
     });
-    
+
   } catch(err) {
     return {
       ok: false,
@@ -33,8 +33,19 @@ async function httpSubmitLaunch(launch) {
 }
 
 async function httpAbortLaunch(id) {
-  // TODO: Once API is ready.
-  // Delete launch with given ID.
+  
+  // seeing if there is any error in the system 
+  try {
+    return await fetch(`${API_URL}/launches/${id}`, {
+      method: "delete",
+    });
+  
+  } catch(error) {
+    console.log(error);
+    return {
+      ok: false,
+    }
+  } 
 }
 
 export {

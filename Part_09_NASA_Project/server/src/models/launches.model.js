@@ -21,6 +21,11 @@ const launch = {
 // we can get all data of the satelite
 launches.set(launch.filghtNumber, launch);
 
+//if there exist a launch with that launch Id 
+function existsLaunchWithId(launchId) {
+    return launches.has(launchId)
+}
+
 // Function to get all launches 
 function getAllLaunches() {
     return Array.from(launches.values());
@@ -40,9 +45,16 @@ function addNewLaunch(launch) {
     )
 }
 
+// Function to abort any particular function
+function abortLaunchById(launchId) {
+    
+}
+
 // exporting the module data now so that it could be used elsewhere
 module.exports = {
     getAllLaunches,
     addNewLaunch,
+    existsLaunchWithId,
+    abortLaunchById,
 };
 

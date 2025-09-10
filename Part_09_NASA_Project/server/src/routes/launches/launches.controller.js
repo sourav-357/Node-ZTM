@@ -3,6 +3,7 @@
 const { 
     getAllLaunches,
     addNewLaunch,
+    existsLaunchWithId,
 } = require('../../models/launches.model');
 
 // Creating the getAllLaunches function so that we could access all the launches data 
@@ -36,9 +37,25 @@ function httpAddNewLaunch(req, res) {
     return res.status(201).json(launch);
 }
 
+// Function to abort any response 
+function httpAbortLaunch(req, res) {
+    const launchId = req.params.id;
+
+    // if launch do not exist 
+    if (!existsLaunchWithId(launchId)) {
+        return res.status(404).json({
+            error: 'launch not found',
+        }); 
+    }
+
+    // if launch does exist 
+    return res.status(200).json(aborted);
+}
+
 // Exporting the data as module
 module.exports = {
     httpGetAllLaunches,
     httpAddNewLaunch,
+    httpAbortLaunch,
 }
 
