@@ -55,9 +55,14 @@ function loadPlanetsData() {
     });
 }
 
+// Function to return all the habitable planets 
+function getAllPlanets() {
+    return habitablePlanets;
+}
+
 // Export function and data so other files can use them
 module.exports = {
     loadPlanetsData,
-    planets: habitablePlanets,
+    getAllPlanets,
 }
 

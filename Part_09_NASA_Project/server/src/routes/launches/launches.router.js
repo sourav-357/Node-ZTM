@@ -4,14 +4,14 @@ const express = require('express');
 
 // Importing the getAllLaunches Function from different module
 const {
-    getAllLaunches,
+    httpGetAllLaunches,
 } = require('./launches.controller');
 
 // Create a new router for launchesRouter
 const launchesRouter = express.Router();
 
 // Function to get all the launches information 
-launchesRouter.get('/launches', getAllLaunches);
+launchesRouter.get('/launches', httpGetAllLaunches);
 
 // Exporting the module so that we can use it 
 module.exports = launchesRouter;
