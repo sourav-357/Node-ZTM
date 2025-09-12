@@ -31,4 +31,5 @@ app.get('/timer', (req, res) => {
 // Starting the server at port 3000 
 app.listen(3000, () => {
     console.log('The server is listining to requests at port 3000....');
-})
+});
+
