@@ -1,35 +1,32 @@
-
-// importing the express module that we installed 
+// We are using Express (a web framework for Node.js)
 const express = require('express');
-
-// Creating a first server with express
 const app = express();
 
-// Creating a function to delay the response 
-function delay (duration) {
-    const stratTime = Date.now();
-    while (Date.now() - stratTime < duration) {
-        // untill this loop is ongoing, the event loop is blocked...
+// This function just wastes time (4 sec) and blocks the server
+// While this runs, the server cannot handle other requests
+function delay(duration) {
+    const startTime = Date.now();
+    while (Date.now() - startTime < duration) {
+        // Waiting in a loop (bad for performance)
     }
 }
 
-// Routing the app server 
+// If someone visits http://localhost:3000/
+// This will reply quickly with the process ID
 app.get('/', (req, res) => {
-    res.send('performance example');
+    res.send(`Performance example: ${process.pid}`);
 });
 
-// Routing the app server for /timer
+// If someone visits http://localhost:3000/timer
+// This will make the server "wait" 4 seconds before replying
 app.get('/timer', (req, res) => {
-    
-    // Delaying the response and then replying 
-    delay(9000);
-
-    // Replying to the request now 
-    res.send('Ding Ding Ding! ...');
+    delay(4000); // wait 4 seconds
+    res.send(`Beep beep beep! ${process.pid}`);
 });
 
-// Starting the server at port 3000 
-app.listen(3000, () => {
-    console.log('The server is listining to requests at port 3000....');
-});
+// Just printing messages in terminal
+console.log('Running server.js...');
+console.log('Worker process started.');
 
+// Start server at port 3000
+app.listen(3000);

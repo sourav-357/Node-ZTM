@@ -1,5 +1,5 @@
 {
-  "name": "part_11_node_performance",
+  "name": "p11_performance_example",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "pm2": "^6.0.13"
   }
 }
