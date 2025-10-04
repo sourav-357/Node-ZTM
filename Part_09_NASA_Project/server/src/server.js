@@ -10,6 +10,10 @@ const { loadPlanetsData } = require('./models/planets.model');
 // If no port is set, use 8000 as default
 const PORT = process.env.PORT || 8000;
 
+// Connecting to the mongo url by copy pasting the url provided to us 
+const MONGO_URL = 'mongodb+srv://xsouravkumar357:J@igurudev_357@cluster0.smwhnqc.mongodb.net/nasa?retryWrites=true&w=majority&appName=Cluster0';
+// Replace <db_password> with the password for the xsouravkumar357 database user
+
 // Create an HTTP server that uses your Express app to handle requests
 const server = http.createServer(app);
 
