@@ -20,15 +20,24 @@ const MONGO_URL = 'mongodb+srv://xsouravkumar357:J@igurudev_357@cluster0.smwhnqc
 // Create an HTTP server that uses your Express app to handle requests
 const server = http.createServer(app);
 
+// Checkimg if the connection is sucessful or not 
+mongoose.connection.once('open', () => {
+    console.log('MongoDB connection ready!');
+});
+
+// If there is some error while connecting to the mongoDB database
+mongoose.connection.on('error', (err) => {
+    console.error(err);
+});
+
 async function startServer(){
 
     // Connecting to the mongoose server 
     mongoose.connect(MONGO_URL, {
         useNewUrlParser: true,
-        useFindAndModify: false,
-        useCreateIndex: true,
         useUnifiedTopology: true,
     });
+
 
     // To load the planets data
     await loadPlanetsData();
