@@ -23,7 +23,12 @@ const server = http.createServer(app);
 async function startServer(){
 
     // Connecting to the mongoose server 
-    mongoose.connect(MONGO_URL);
+    mongoose.connect(MONGO_URL, {
+        useNewUrlParser: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+    });
 
     // To load the planets data
     await loadPlanetsData();
