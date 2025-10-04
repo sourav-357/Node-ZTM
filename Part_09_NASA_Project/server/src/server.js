@@ -1,6 +1,9 @@
 // Load Node.js module to create an HTTP server
 const http = require('http');
 
+// Importing the mongoose module for better performances
+const mongoose = require('mongoose');
+
 // Load your Express app which handles all routes and logic
 const app = require('./app');
 
@@ -19,6 +22,10 @@ const server = http.createServer(app);
 
 async function startServer(){
 
+    // Connecting to the mongoose server 
+    mongoose.connect(MONGO_URL);
+
+    // To load the planets data
     await loadPlanetsData();
 
     // Start the server and listen on the specified port
