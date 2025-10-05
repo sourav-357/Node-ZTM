@@ -20,7 +20,7 @@ const MONGO_URL = 'mongodb+srv://souravkumar357:JaiGurudev357@cluster0.zjubkdn.m
 // Create an HTTP server that uses your Express app to handle requests
 const server = http.createServer(app);
 
-// Checkimg if the connection is sucessful or not 
+// Checkimg if the connection is sucessful or not -->> Event Emitter 
 mongoose.connection.once('open', () => {
     console.log('MongoDB connection ready!');
 });
