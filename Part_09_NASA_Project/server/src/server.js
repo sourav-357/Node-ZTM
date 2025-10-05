@@ -14,7 +14,7 @@ const { loadPlanetsData } = require('./models/planets.model');
 const PORT = process.env.PORT || 8000;
 
 // Connecting to the mongo url by copy pasting the url provided to us 
-const MONGO_URL = 'mongodb+srv://xsouravkumar357:J@igurudev_357@cluster0.smwhnqc.mongodb.net/nasa?retryWrites=true&w=majority&appName=Cluster0';
+const MONGO_URL = 'mongodb+srv://souravkumar357:JaiGurudev357@cluster0.zjubkdn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 // Replace <db_password> with the password for the xsouravkumar357 database user
 
 // Create an HTTP server that uses your Express app to handle requests
@@ -33,11 +33,7 @@ mongoose.connection.on('error', (err) => {
 async function startServer(){
 
     // Connecting to the mongoose server 
-    mongoose.connect(MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    });
-
+    await mongoose.connect(MONGO_URL);
 
     // To load the planets data
     await loadPlanetsData();
