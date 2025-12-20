@@ -1,14 +1,21 @@
-// Import React library to help us create UI parts (components)
+// Import React library - the core library for building user interfaces
+// React allows us to create reusable components and manage UI state
 import React from "react";
 
-// Import ReactDOM to place those UI parts into the actual web page
+// Import ReactDOM - the library that renders React components to the DOM
+// ReactDOM is the bridge between React components and the actual HTML page
 import ReactDOM from "react-dom";
 
-// Import the main App component which is like the "heart" of our project
+// Import the main App component
+// This is the root component that contains all other components
+// It's like the "heart" of our application
 import App from "./App";
 
-// Tell ReactDOM to display the App component inside the element
-// that has id="root" in index.html (this is where the whole app shows up)
+// Render the App component into the HTML page
+// ReactDOM.render takes two arguments:
+// 1. The component to render (App)
+// 2. The DOM element where it should be rendered (the element with id="root")
+// This is the entry point of our React application
 ReactDOM.render(
   <App />,
   document.getElementById("root")

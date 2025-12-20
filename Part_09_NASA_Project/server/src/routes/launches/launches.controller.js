@@ -1,5 +1,3 @@
-
-// Importing the data from launches.model so that we could access it 
 const { 
     getAllLaunches,
     addNewLaunch,
@@ -7,54 +5,69 @@ const {
     abortLaunchById,
 } = require('../../models/launches.model');
 
-// Creating the getAllLaunches function so that we could access all the launches data 
-function httpGetAllLaunches(req, res) {  
-
-    // Geeting the data from launches by launches.values() and converting it to array by Array.from() and treating it as json 
-    return res.status(200).json(getAllLaunches());
+// GET /launches - Returns all launches (upcoming and past)
+async function httpGetAllLaunches(req, res) {
+    const launches = await getAllLaunches();
+    return res.status(200).json(launches);
 }
 
-// Creating a function to add new Launch function
-function httpAddNewLaunch(req, res) {
+// POST /launches - Creates a new launch
+// Validates input and auto-assigns flight number
+async function httpAddNewLaunch(req, res) {
     const launch = req.body;
 
-    // If the data provided by the user is wrong 
+    // Input validation - check for required fields
     if (!launch.mission || !launch.rocket || !launch.launchDate || !launch.target) {
         return res.status(400).json({
             error: 'Missing required launch property'
         });
     }
 
+    // Convert date string to Date object for MongoDB
     launch.launchDate = new Date(launch.launchDate);
     
-    // Checking if the value of date is a number or not 
+    // Validate date is actually valid
     if (isNaN(launch.launchDate)) {
         return res.status(400).json({
-            error: 'Invalid launch Date',
+            error: 'Invalid launch date',
         });
     }
 
-    addNewLaunch(launch);
-    return res.status(201).json(launch);
+    try {
+        const savedLaunch = await addNewLaunch(launch);
+        return res.status(201).json(savedLaunch);
+    } catch (error) {
+        console.error('Error adding launch:', error);
+        return res.status(500).json({
+            error: 'Failed to add launch'
+        });
+    }
 }
 
-// Function to abort any response 
-function httpAbortLaunch(req, res) {
+// DELETE /launches/:id - Aborts a launch by flight number
+async function httpAbortLaunch(req, res) {
     const launchId = Number(req.params.id);
 
-    // if launch do not exist 
-    if (!existsLaunchWithId(launchId)) {
+    // Check if launch exists before attempting to abort
+    const existsLaunch = await existsLaunchWithId(launchId);
+    if (!existsLaunch) {
         return res.status(404).json({
-            error: 'launch not found',
+            error: 'Launch not found',
         }); 
     }
 
-    // if launch does exist 
-    const aborted = abortLaunchById(launchId)
-    return res.status(200).json(aborted);
+    const aborted = await abortLaunchById(launchId);
+    if (!aborted) {
+        return res.status(400).json({
+            error: 'Launch not aborted'
+        });
+    }
+
+    return res.status(200).json({
+        ok: true
+    });
 }
 
-// Exporting the data as module
 module.exports = {
     httpGetAllLaunches,
     httpAddNewLaunch,

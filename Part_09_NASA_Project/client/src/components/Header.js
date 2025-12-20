@@ -1,3 +1,4 @@
+// Import Arwes UI components for sci-fi styling
 import { 
   Logo,
   Words,
@@ -5,10 +6,16 @@ import {
   Highlight,
   withStyles,
 } from "arwes";
+
+// Import Link component from React Router for navigation
 import { Link } from "react-router-dom";
+
+// Import reusable components
 import Clickable from "./Clickable";
 import Centered from "./Centered";
 
+// Define CSS styles using a function (required by Arwes withStyles)
+// The theme parameter provides access to Arwes theme values
 const styles = theme => ({
   root: {
     display: "flex",
@@ -62,9 +69,12 @@ const styles = theme => ({
   },
 });
 
+// Header component - displays navigation menu and branding
+// onNav prop is called when user clicks a navigation link (for animation)
 const Header = props => {
   const { classes, onNav, ...rest } = props;
-  return <ArwesHeader animate>
+  return (
+    <ArwesHeader animate>
     <Centered className={classes.root} {...rest}>
       <img src="/favicon.png" alt="" className={classes.img} style={{
         margin: "15px 10px 15px 0",
@@ -75,7 +85,9 @@ const Header = props => {
       <Words animate className={classes.banner}>
         NASA Mission Control
       </Words>
+      {/* Navigation menu with links to all pages */}
       <nav className={`${classes.nav}`}>
+        {/* Launch page link */}
         <Clickable className={classes.clickable} onClick={onNav}>
           <Highlight className={classes.button} animate layer="header">
             <Link className={classes.link} to="/launch">
@@ -83,21 +95,28 @@ const Header = props => {
             </Link>
           </Highlight>
         </Clickable>
+        
+        {/* Upcoming launches page link */}
         <Clickable className={classes.clickable} onClick={onNav}>
           <Highlight className={classes.button} animate layer="header">
             <Link className={classes.link} to="/upcoming">
-            <i className="material-icons">update</i>Upcoming</Link>
+              <i className="material-icons">update</i>Upcoming
+            </Link>
           </Highlight>
         </Clickable>
+        
+        {/* History page link */}
         <Clickable className={classes.clickable} onClick={onNav}>
           <Highlight className={classes.button} animate layer="header">
             <Link className={classes.link} to="/history">
-            <i className="material-icons">history</i>History</Link>
+              <i className="material-icons">history</i>History
+            </Link>
           </Highlight>
         </Clickable>
       </nav>
     </Centered>
   </ArwesHeader>
+  );
 };
 
 export default withStyles(styles)(Header);

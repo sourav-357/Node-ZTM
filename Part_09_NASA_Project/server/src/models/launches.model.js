@@ -1,59 +1,82 @@
+const Launch = require('./launches.mongo');
+const Planet = require('./planets.mongo');
 
-// we could store the data of the satelites in many ways -->> but we will use the map data structure as it is very good 
-const launches = new Map();
+// Default customers for all new launches
+const DEFAULT_CUSTOMERS = ['Zero to Mastery', 'NASA'];
 
-// Storing the latest Flight Number 
-let latestFlighNumber = 100;
-
-// creating a object of lauch 
-const launch = {
-    flightNumber: 100,
-    mission: 'kepler exploration x',
-    rocket: 'Explorer IS1',
-    launchDate: new Date('December 27, 2030'),
-    target: 'kepler-442 b',
-    customer: ['ZTM', 'NASA'],
-    upcoming: true,
-    success: true,
-};
-
-// we will now map the flightNumber and that particular launch object together so that by calling launch.get(flightNumber) -->> 
-// we can get all data of the satelite
-launches.set(launch.flightNumber, launch);
-
-//if there exist a launch with that launch Id 
-function existsLaunchWithId(launchId) {
-    return launches.has(launchId)
+// Gets the highest flight number to auto-increment for new launches
+// Starting from 100 to leave room for historical SpaceX data
+async function getLatestFlightNumber() {
+    const latestLaunch = await Launch
+        .findOne()
+        .sort('-flightNumber');
+    
+    // If DB is empty, start numbering from 100
+    if (!latestLaunch) {
+        return 100;
+    }
+    return latestLaunch.flightNumber;
 }
 
-// Function to get all launches 
-function getAllLaunches() {
-    return Array.from(launches.values());
+// Check if launch exists - used for validation before aborting
+async function existsLaunchWithId(launchId) {
+    return await Launch.findOne({
+        flightNumber: launchId
+    });
 }
 
-// Creating a function to add new launch 
-function addNewLaunch(launch) {
-    latestFlighNumber++;
-    launches.set(
-        latestFlighNumber, 
-        Object.assign(launch, {
-            flightNumber: latestFlighNumber,
-            customer: ['Zero to Mastery', 'NASA'],
-            upcoming: true,
-            success: true,
-        })
-    )
+// Fetch all launches with optional pagination support
+// Currently not using pagination but structure is ready for it
+async function getAllLaunches(skip, limit) {
+    return await Launch
+        .find({}, { '_id': 0, '__v': 0 })
+        .sort({ flightNumber: 1 })
+        .skip(skip)
+        .limit(limit);
 }
 
-// Function to abort any particular function
-function abortLaunchById(launchId) {
-    const aborted = launches.get(launchId);
-    aborted.upcoming = false;
-    aborted.success = false;
-    return aborted;
+// Helper function to save/update launch in DB
+// Using upsert to handle both new launches and updates
+async function saveLaunch(launch) {
+    await Launch.findOneAndUpdate(
+        { flightNumber: launch.flightNumber },
+        launch,
+        { upsert: true }
+    );
 }
 
-// exporting the module data now so that it could be used elsewhere
+// Creates a new launch with auto-incremented flight number
+// Sets default values for customers, upcoming, and success status
+async function addNewLaunch(launch) {
+    const newFlightNumber = await getLatestFlightNumber() + 1;
+    
+    const newLaunch = Object.assign(launch, {
+        flightNumber: newFlightNumber,
+        customers: DEFAULT_CUSTOMERS,
+        upcoming: true,
+        success: true,
+    });
+    
+    await saveLaunch(newLaunch);
+    return newLaunch;
+}
+
+// Aborts a launch by marking it as not upcoming and unsuccessful
+// Returns boolean indicating if the operation succeeded
+async function abortLaunchById(launchId) {
+    const aborted = await Launch.updateOne(
+        { flightNumber: launchId },
+        {
+            upcoming: false,
+            success: false,
+        }
+    );
+    
+    // modifiedCount tells us if a document was actually updated
+    return aborted.modifiedCount === 1;
+}
+
+// Export all functions so other files can use them
 module.exports = {
     getAllLaunches,
     addNewLaunch,

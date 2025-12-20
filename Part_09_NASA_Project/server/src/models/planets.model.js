@@ -1,66 +1,72 @@
-// Import csv-parse to help read CSV files
 const { parse } = require('csv-parse');
-
-// Importing the path module so that it gets the absolute path 
 const path = require('path');
-
-// Import file system (fs) to read files
 const fs = require('fs');
+const Planet = require('./planets.mongo');
 
-// Store all planets data here
+// Temporary storage for CSV parsing - not needed after DB save
 const results = [];
 
-// Store only life-supporting planets here
-const habitablePlanets = [];
-
-// Check if a planet can support life
+// Filtering habitable planets based on scientific criteria
+// Using conservative thresholds to ensure we only get planets that could actually support life
+// koi_insol = stellar flux (how much energy the planet receives)
+// koi_prad = planetary radius (size compared to Earth)
 function isHabitablePlanet(planet) {
   return planet['koi_disposition'] === 'CONFIRMED'
     && planet['koi_insol'] > 0.36 && planet['koi_insol'] < 1.11
     && planet['koi_prad'] < 1.6;
 }
 
-// Load planets data from CSV file
-function loadPlanetsData() {
+// Loads planets from CSV on server startup
+// Only runs if DB is empty - prevents duplicate entries on restarts
+async function loadPlanetsData() {
+    return new Promise(async (resolve, reject) => {
+        // Quick check to avoid re-processing if data already exists
+        const existingPlanets = await Planet.find({});
+        if (existingPlanets.length > 0) {
+            console.log(`Found ${existingPlanets.length} planets already in database. Skipping CSV load.`);
+            return resolve();
+        }
 
-    // Use Promise so we know when reading is done
-    return new Promise((resolve, reject) => {
-
-        // Open the kepler_data.csv file
+        // Using streams for memory efficiency with large CSV files
         fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'kepler_data.csv'))
-            // Send data to csv parser
             .pipe(parse({
-                comment: '#',   // Skip lines starting with #
-                columns: true,  // Use first row as column names
+                comment: '#',   // Ignore comment lines
+                columns: true,  // First row as headers
             }))
-            // Runs when one row of data comes
-            .on('data', (data) => {
+            .on('data', async (data) => {
                 results.push(data);
                 
-                // Add to habitable list if planet is good for life
+                // Only save planets that meet habitable criteria
                 if (isHabitablePlanet(data)) {
-                    habitablePlanets.push(data);
+                    // Upsert prevents duplicates - useful if function runs multiple times
+                    await Planet.updateOne(
+                        { keplerName: data.kepler_koi_name },
+                        { keplerName: data.kepler_koi_name },
+                        { upsert: true }
+                    );
                 }
             })
-            // Runs if there is an error
             .on('error', (err) => {
-                console.log(err);
-                reject(err); // Stop if error happens
+                console.error('Error reading CSV file:', err);
+                reject(err);
             })
-            // Runs after reading is complete
-            .on('end', () => {
-                console.log(`Total habitable planets: ${habitablePlanets.length}`);
-                resolve(); // Finish promise
+            .on('end', async () => {
+                const countPlanetsFound = (await Planet.find({})).length;
+                console.log(`Loaded ${countPlanetsFound} habitable planets into database.`);
+                resolve();
             });
     });
 }
 
-// Function to return all the habitable planets 
-function getAllPlanets() {
-    return habitablePlanets;
+// Fetch all planets from DB - used by the /planets endpoint
+// Excluding MongoDB internal fields to keep API response clean
+async function getAllPlanets() {
+    return await Planet.find({}, {
+        '_id': 0,
+        '__v': 0,
+    });
 }
 
-// Export function and data so other files can use them
 module.exports = {
     loadPlanetsData,
     getAllPlanets,
