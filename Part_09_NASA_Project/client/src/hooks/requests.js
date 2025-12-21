@@ -5,24 +5,48 @@ const API_URL = 'http://localhost:8000';
 // Function to fetch all planets from the API
 // Returns a Promise that resolves to an array of planet objects
 async function httpGetPlanets() {
-  // Make GET request to /planets endpoint
-  const response = await fetch(`${API_URL}/planets`);
-  // Parse the JSON response and return it
-  return await response.json();
+  try {
+    // Make GET request to /planets endpoint
+    const response = await fetch(`${API_URL}/planets`);
+    
+    // Check if response is ok
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    // Parse the JSON response and return it
+    return await response.json();
+  } catch (error) {
+    // If network error or other error occurs, log it and return empty array
+    console.error('Error fetching planets:', error);
+    return [];
+  }
 }
 
 // Function to fetch all launches from the API
 // Returns a Promise that resolves to a sorted array of launch objects
 async function httpGetLaunches() {
-  // Make GET request to /launches endpoint
-  const response = await fetch(`${API_URL}/launches`);
-  // Parse the JSON response
-  const fetchedLaunches = await response.json();
-  // Sort launches by flight number (ascending order)
-  // This ensures launches are displayed in chronological order
-  return fetchedLaunches.sort((a, b) => {
-    return a.flightNumber - b.flightNumber;
-  });
+  try {
+    // Make GET request to /launches endpoint
+    const response = await fetch(`${API_URL}/launches`);
+    
+    // Check if response is ok
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    // Parse the JSON response
+    const fetchedLaunches = await response.json();
+    // Sort launches by flight number (ascending order)
+    // This ensures launches are displayed in chronological order
+    return fetchedLaunches.sort((a, b) => {
+      return a.flightNumber - b.flightNumber;
+    });
+  } catch (error) {
+    // If network error or other error occurs, log it and return empty array
+    console.error('Error fetching launches:', error);
+    return [];
+  }
 }
 
 // Function to submit a new launch to the API

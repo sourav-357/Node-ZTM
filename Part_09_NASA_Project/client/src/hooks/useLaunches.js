@@ -14,8 +14,14 @@ function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
 
   // Memoized to prevent unnecessary re-renders
   const getLaunches = useCallback(async () => {
-    const fetchedLaunches = await httpGetLaunches();
-    saveLaunches(fetchedLaunches);
+    try {
+      const fetchedLaunches = await httpGetLaunches();
+      saveLaunches(fetchedLaunches);
+    } catch (error) {
+      console.error('Error in getLaunches:', error);
+      // Keep empty array on error to prevent crashes
+      saveLaunches([]);
+    }
   }, []);
 
   // Fetch launches on mount

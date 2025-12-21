@@ -77,9 +77,15 @@ const Launch = props => {
         
         {/* Planet selector dropdown - populated with habitable planets */}
         <label htmlFor="planets-selector">Destination Exoplanet</label>
-        <select id="planets-selector" name="planets-selector">
+        <select id="planets-selector" name="planets-selector" required>
+          <option value="">Select a planet...</option>
           {selectorBody}
         </select>
+        {props.planets && props.planets.length === 0 && (
+          <span style={{color: 'red', fontSize: '12px', gridColumn: '2'}}>
+            No planets available. Make sure backend server is running.
+          </span>
+        )}
         
         {/* Submit button - disabled while launch is being processed */}
         <Clickable>

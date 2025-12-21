@@ -4,7 +4,7 @@
   "main": "src/server.js",
   "scripts": {
     "test": "jest",
-    "watch": "nodemon server.js",
+    "watch": "nodemon src/server.js",
     "start": "node src/server.js"
   },
   "keywords": [],

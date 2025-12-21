@@ -17,15 +17,10 @@ function isHabitablePlanet(planet) {
 }
 
 // Loads planets from CSV on server startup
-// Only runs if DB is empty - prevents duplicate entries on restarts
+// Reloads all habitable planets on every server start
 async function loadPlanetsData() {
     return new Promise(async (resolve, reject) => {
-        // Quick check to avoid re-processing if data already exists
-        const existingPlanets = await Planet.find({});
-        if (existingPlanets.length > 0) {
-            console.log(`Found ${existingPlanets.length} planets already in database. Skipping CSV load.`);
-            return resolve();
-        }
+        const habitablePlanets = [];
 
         // Using streams for memory efficiency with large CSV files
         fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'kepler_data.csv'))
@@ -33,17 +28,16 @@ async function loadPlanetsData() {
                 comment: '#',   // Ignore comment lines
                 columns: true,  // First row as headers
             }))
-            .on('data', async (data) => {
+            .on('data', (data) => {
                 results.push(data);
                 
-                // Only save planets that meet habitable criteria
+                // Collect planets that meet habitable criteria
                 if (isHabitablePlanet(data)) {
-                    // Upsert prevents duplicates - useful if function runs multiple times
-                    await Planet.updateOne(
-                        { keplerName: data.kepler_koi_name },
-                        { keplerName: data.kepler_koi_name },
-                        { upsert: true }
-                    );
+                    // Use kepler_name (more readable) or fall back to kepoi_name if kepler_name is empty
+                    const planetName = data.kepler_name || data.kepoi_name;
+                    if (planetName) {
+                        habitablePlanets.push(planetName);
+                    }
                 }
             })
             .on('error', (err) => {
@@ -51,9 +45,26 @@ async function loadPlanetsData() {
                 reject(err);
             })
             .on('end', async () => {
-                const countPlanetsFound = (await Planet.find({})).length;
-                console.log(`Loaded ${countPlanetsFound} habitable planets into database.`);
-                resolve();
+                try {
+                    // Clear existing planets before loading new ones
+                    await Planet.deleteMany({});
+                    
+                    // Save all habitable planets to database
+                    const planetsToSave = habitablePlanets.map(planetName => ({
+                        keplerName: planetName
+                    }));
+                    
+                    if (planetsToSave.length > 0) {
+                        await Planet.insertMany(planetsToSave);
+                    }
+                    
+                    const countPlanetsFound = (await Planet.find({})).length;
+                    console.log(`Loaded ${countPlanetsFound} habitable planets into database.`);
+                    resolve();
+                } catch (error) {
+                    console.error('Error saving planets to database:', error);
+                    reject(error);
+                }
             });
     });
 }

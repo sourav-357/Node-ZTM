@@ -15,10 +15,21 @@ function usePlanets() {
   // useCallback ensures this function reference doesn't change on every render
   // This prevents unnecessary re-renders and infinite loops
   const getPlanets = useCallback(async () => {
-    // Call the API to get planets data
-    const fetchedPlanets = await httpGetPlanets();
-    // Update state with the fetched planets
-    savePlanets(fetchedPlanets);
+    try {
+      // Call the API to get planets data
+      const fetchedPlanets = await httpGetPlanets();
+      console.log('Fetched planets:', fetchedPlanets);
+      // Update state with the fetched planets
+      savePlanets(fetchedPlanets);
+      
+      if (!fetchedPlanets || fetchedPlanets.length === 0) {
+        console.warn('No planets found. Make sure backend server is running and MongoDB has planets data.');
+      }
+    } catch (error) {
+      console.error('Error in getPlanets:', error);
+      // Keep empty array on error to prevent crashes
+      savePlanets([]);
+    }
   }, []); // Empty dependency array means this function never changes
 
   // useEffect runs after the component mounts
