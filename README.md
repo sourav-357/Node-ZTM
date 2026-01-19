@@ -6,6 +6,8 @@ This repo contains all the **code, notes, and mini-projects** I create while com
 
 It serves as a **personal learning journal** as well as a **showcase of backend development skills** that I’m building step by step.  
 
+
+
 ---
 
 ## 📌 About the Course
