@@ -163,7 +163,7 @@ const messageController = require('./controllers/messages.controller');
 const app = express();
 
 // Setting up the port number -->> 3000
-const PORT = 3000;
+const PORT = 5000;
 
 // We are going to use another function of Express that will help us to play with data of reqest and respond
 // We can (after editing the data's of these parameters) use next() to proceed further 
